@@ -1,0 +1,108 @@
+:root {
+  --bg: #e5e2dc;
+  --ink: #2a2419;
+  --accent: #8b6914;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Georgia", "Times New Roman", serif;
+  color: var(--ink);
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(circle at 18% 22%, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 42%),
+    radial-gradient(circle at 78% 76%, rgba(0, 0, 0, 0.06) 0%, rgba(0, 0, 0, 0) 48%),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.03) 0px,
+      rgba(255, 255, 255, 0.03) 2px,
+      rgba(0, 0, 0, 0.018) 3px,
+      rgba(0, 0, 0, 0.018) 4px
+    );
+  display: grid;
+  place-items: start center;
+  padding: 1rem;
+}
+
+.gallery {
+  position: relative;
+  width: min(1024px, calc(100vw - 2rem));
+  aspect-ratio: 1024 / 819;
+}
+
+.frame-stack {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out;
+  will-change: transform;
+}
+
+.frame-slot {
+  position: absolute;
+  left: var(--frame-x);
+  top: var(--frame-y);
+  width: var(--frame-w);
+  height: var(--frame-h);
+  perspective: 1000px;
+}
+
+.photo-inner {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: 6px;
+  border: 10px solid #fff;
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.14),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.photo-inner .photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  background: #eee;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.frame-slot.has-image .photo-inner .photo {
+  opacity: 1;
+}
+
+.frame-file-input {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.frame-upload-hit {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  cursor: pointer;
+}
+
+.frame-upload-hit:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.frame-slot.is-uploading .frame-upload-hit {
+  pointer-events: none;
+  cursor: wait;
+}
